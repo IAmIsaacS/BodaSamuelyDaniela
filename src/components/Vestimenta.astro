@@ -1,0 +1,127 @@
+---
+import { Image } from "astro:assets";
+import img from '../assets/gallery/1.png';
+import img2 from '../assets/gallery/2.png';
+import img3 from '../assets/gallery/3.png';
+import img4 from '../assets/gallery/4.png';
+---
+
+<section id="dress-code" class="w-[90%] md:w-[75%] mx-auto py-20 md:py-28 text-center overflow-hidden">
+  <!-- Título -->
+  <h1 class="text-4xl md:text-6xl font-serif italic text-gray-800 mb-5">
+    Código de Vestimenta
+  </h1>
+  <p class="text-1xl md:text-2xl text-[#C8AD7F] mb-10">Semi formal - Colores pastel</p>
+
+  <!-- Subtítulo -->
+  <p class="text-gray-500 max-w-2xl mx-auto mb-12">
+    El color blanco o semejantes están reservados especialmente para la novia.
+  </p>
+
+  <!-- Grid de imágenes -->
+  <div class="gallery-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
+    <div class="gallery-item group relative overflow-hidden rounded-lg bg-gray-50">
+      <div class="image-container aspect-[3/4] overflow-hidden">
+        <Image 
+          src={img} 
+          alt="Ejemplo de vestimenta semi formal colores pastel 1" 
+          class="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+      <div class="overlay absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+        <span class="text-white text-sm font-medium">Estilo Semi Formal</span>
+      </div>
+    </div>
+
+    <div class="gallery-item group relative overflow-hidden rounded-lg bg-gray-50">
+      <div class="image-container aspect-[3/4] overflow-hidden">
+        <Image 
+          src={img2} 
+          alt="Ejemplo de vestimenta semi formal colores pastel 2" 
+          class="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+      <div class="overlay absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+        <span class="text-white text-sm font-medium">Colores Pastel</span>
+      </div>
+    </div>
+
+    <div class="gallery-item group relative overflow-hidden rounded-lg bg-gray-50">
+      <div class="image-container aspect-[3/4] overflow-hidden">
+        <Image 
+          src={img3} 
+          alt="Ejemplo de vestimenta semi formal colores pastel 3" 
+          class="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+      <div class="overlay absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+        <span class="text-white text-sm font-medium">Elegancia Discreta</span>
+      </div>
+    </div>
+
+    <div class="gallery-item group relative overflow-hidden rounded-lg bg-gray-50">
+      <div class="image-container aspect-[3/4] overflow-hidden">
+        <Image 
+          src={img4} 
+          alt="Ejemplo de vestimenta semi formal colores pastel 4" 
+          class="object-cover w-full h-full transition-all duration-700 group-hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+      <div class="overlay absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+        <span class="text-white text-sm font-medium">Look Completo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nota adicional -->
+  <p class="text-gray-400 text-sm max-w-2xl mx-auto mt-8 italic">
+    * Las imágenes son referencias de estilo. Siéntete libre de interpretar el código de vestimenta a tu manera.
+  </p>
+</section>
+
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+
+  if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector("#dress-code");
+    if (!section) return;
+
+    const heading = section.querySelector("h1");
+    const subtitle = section.querySelector("p:first-of-type");
+    const text = section.querySelector("p:nth-of-type(2)");
+    const galleryItems = section.querySelectorAll(".gallery-item");
+    const note = section.querySelector("p:last-of-type");
+
+    const tl = gsap.timeline({
+      defaults: { duration: 1, ease: "power3.out" },
+      scrollTrigger: {
+        trigger: section,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none none"
+      }
+    });
+
+    tl.from(heading, { y: 50, opacity: 0 })
+      .from(subtitle, { y: 30, opacity: 0 }, "-=0.5")
+      .from(text, { y: 30, opacity: 0 }, "-=0.5")
+      .from(galleryItems, {
+        y: 50,
+        opacity: 0,
+        stagger: 0.2,
+        scale: 0.95
+      }, "-=0.5")
+      .from(note, { y: 20, opacity: 0 }, "-=0.3");
+  });
+</script>

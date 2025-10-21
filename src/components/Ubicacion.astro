@@ -1,0 +1,205 @@
+---
+import { Image } from "astro:assets";
+import location from "../assets/location.jpg";
+---
+
+<section id="ubicacion" class="flex flex-col items-center justify-center p-6 mb-10 bg-white">
+  <!-- Título -->
+  <div class="text-center mb-10">
+    <h1 class="text-4xl md:text-6xl text-gray-800">Ubicación</h1>
+  </div>
+
+  <!-- Card -->
+  <div
+    class="card-wedding max-w-4xl w-full mx-auto bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1"
+  >
+    <!-- Imagen -->
+    <div class="relative w-full h-56 md:h-80 overflow-hidden">
+      <Image
+        src={location}
+        alt="Ubicación"
+        class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="p-8 text-left">
+      <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
+        JARDÍN QUINTA CLARET
+      </h3>
+
+      <div class="flex items-center text-gray-600 text-sm md:text-base mb-2">
+        <span class="mr-2 text-[#C8AD7F]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M12 12q.825 0 1.413-.587T14 10t-.587-1.412T12 8t-1.412.588T10 10t.588 1.413T12 12m0 10q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2t5.588 2.225T20 10.2q0 2.5-1.987 5.438T12 22"
+            />
+          </svg>
+        </span>
+        <p>LAS DELICIAS</p>
+      </div>
+
+      <div class="flex items-center text-gray-600 text-sm md:text-base mb-4">
+        <span class="mr-2 text-[#C8AD7F]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M12 14q-.425 0-.712-.288T11 13t.288-.712T12 12t.713.288T13 13t-.288.713T12 14m-4 0q-.425 0-.712-.288T7 13t.288-.712T8 12t.713.288T9 13t-.288.713T8 14m8 0q-.425 0-.712-.288T15 13t.288-.712T16 12t.713.288T17 13t-.288.713T16 14m-4 4q-.425 0-.712-.288T11 17t.288-.712T12 16t.713.288T13 17t-.288.713T12 18m-4 0q-.425 0-.712-.288T7 17t.288-.712T8 16t.713.288T9 17t-.288.713T8 18m8 0q-.425 0-.712-.288T15 17t.288-.712T16 16t.713.288T17 17t-.288.713T16 18M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5z"
+            />
+          </svg>
+        </span>
+        <p>15 Noviembre 2025 - 3:00 PM</p>
+      </div>
+
+      <p class="text-gray-600 text-sm md:text-base leading-relaxed mb-8">
+        Celebra con nosotros en un entorno natural lleno de encanto y tranquilidad, perfecto para compartir este momento tan especial junto a nuestros seres queridos.
+      </p>
+
+      <a
+        href="#"
+        class="inline-block px-8 py-2 border border-[#C8AD7F] text-[#C8AD7F] rounded-full text-sm md:text-base hover:bg-[#C8AD7F] hover:text-white transition-all duration-300"
+      >
+        Ver Ubicación
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      initAnimations();
+    } else {
+
+      loadGSAP();
+    }
+
+    function loadGSAP() {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+      script.onload = function() {
+        const scrollTriggerScript = document.createElement('script');
+        scrollTriggerScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js';
+        scrollTriggerScript.onload = initAnimations;
+        document.head.appendChild(scrollTriggerScript);
+      };
+      document.head.appendChild(script);
+    }
+
+    function initAnimations() {
+
+      if (typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+      }
+
+  
+      gsap.from("#ubicacion h1", {
+        scrollTrigger: {
+          trigger: "#ubicacion h1",
+          start: "top 80%",
+          end: "bottom 60%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power2.out"
+      });
+
+
+      gsap.from(".card-wedding", {
+        scrollTrigger: {
+          trigger: ".card-wedding",
+          start: "top 75%",
+          end: "bottom 60%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: "power2.out",
+        delay: 0.2
+      });
+
+
+      gsap.from(".card-wedding .relative", {
+        scrollTrigger: {
+          trigger: ".card-wedding",
+          start: "top 75%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        opacity: 0,
+        scale: 1.1,
+        duration: 1.2,
+        ease: "power2.out",
+        delay: 0.3
+      });
+
+ 
+      gsap.from(".card-wedding h3", {
+        scrollTrigger: {
+          trigger: ".card-wedding",
+          start: "top 70%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        delay: 0.5
+      });
+
+
+      gsap.from(".card-wedding .flex", {
+        scrollTrigger: {
+          trigger: ".card-wedding",
+          start: "top 70%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        opacity: 0,
+        y: 15,
+        duration: 0.6,
+        stagger: 0.1,
+        delay: 0.7
+      });
+
+
+      gsap.from(".card-wedding p:last-of-type", {
+        scrollTrigger: {
+          trigger: ".card-wedding",
+          start: "top 70%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        opacity: 0,
+        y: 15,
+        duration: 0.7,
+        delay: 0.9
+      });
+
+
+      gsap.from(".card-wedding a", {
+        scrollTrigger: {
+          trigger: ".card-wedding",
+          start: "top 70%",
+          toggleActions: "play none none none",
+          once: true
+        },
+        opacity: 0,
+        y: 10,
+        duration: 0.6,
+        delay: 1.1
+      });
+
+      console.log('Animaciones GSAP cargadas correctamente');
+    }
+  });
+</script>

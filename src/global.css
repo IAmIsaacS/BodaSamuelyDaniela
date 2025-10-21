@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+body::selection{
+  background-color: #C8AD7F;
+  color: white;
+}
+
+h1,
+h2 {
+  font-family: "Great Vibes", cursive;
+}

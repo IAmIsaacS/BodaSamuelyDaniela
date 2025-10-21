@@ -1,0 +1,205 @@
+<section id="regalos" class="w-[90%] md:w-[70%] mx-auto py-20 md:py-28 text-center bg-white">
+  <!-- Título -->
+  <h1 class="text-4xl md:text-6xl text-gray-800 mb-10 tracking-tight">
+    Regalos
+  </h1>
+
+  <!-- Párrafos -->
+  <div class="intro-text max-w-2xl mx-auto text-gray-600 space-y-4 mb-12 leading-relaxed">
+    <p>
+      El amor y la alegría de tenerte con nosotros en este día es un regalo incomparable.
+    </p>
+    <p>
+      Si deseas ayudarnos a dar los primeros pasos en nuestra vida de casados, puedes elegir algo o hacernos un detalle en efectivo. 
+      Cualquiera sea tu elección, será recibida con gratitud y servirá para construir nuestros sueños juntos.
+    </p>
+  </div>
+
+  <!-- Cards -->
+  <div class="gift-grid grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+    <!-- Card 1 -->
+    <div
+      class="gift-card bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-lg transition-all duration-500 p-8 hover:-translate-y-1"
+    >
+      <h3 class="text-xl font-semibold text-[#C8AD7F] mb-3">
+        Samuel Navarro
+      </h3>
+      <p class="text-gray-700 space-y-1">
+        <span class="block"><span class="font-medium">C.I:</span> 27687683</span>
+        <span class="block"><span class="font-medium">Banco:</span> Venezuela</span>
+        <span class="block"><span class="font-medium">Tlf:</span> 04124583525</span>
+      </p>
+    </div>
+
+    <!-- Card 2 -->
+    <div
+      class="gift-card bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-lg transition-all duration-500 p-8 hover:-translate-y-1"
+    >
+      <h3 class="text-xl font-semibold text-[#C8AD7F] mb-3">
+        Daniela Salazar
+      </h3>
+      <p class="text-gray-700 space-y-1">
+        <span class="block"><span class="font-medium">C.I:</span> 30663116</span>
+        <span class="block"><span class="font-medium">Banco:</span> Banesco</span>
+        <span class="block"><span class="font-medium">Tlf:</span> 04128205997</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Mensaje final -->
+  <p class="closing-text text-gray-600 max-w-2xl mx-auto mt-16 italic">
+    ¡Gracias por tu amor y bendiciones!
+  </p>
+</section>
+
+
+<script>
+
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  document.addEventListener("DOMContentLoaded", async () => {
+
+    if (isMobile) {
+
+      document.querySelector("#regalos h1").classList.add("mobile-fade-up");
+      document.querySelectorAll("#regalos .intro-text p").forEach(p => {
+        p.classList.add("mobile-fade-up");
+      });
+      document.querySelectorAll("#regalos .gift-card").forEach(card => {
+        card.classList.add("mobile-fade-up");
+      });
+      document.querySelector("#regalos .closing-text").classList.add("mobile-fade-up");
+      
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+
+      document.querySelectorAll('.mobile-fade-up').forEach(el => {
+        observer.observe(el);
+      });
+      
+      return;
+    }
+    
+
+    try {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+ 
+      const scrollConfig = {
+        once: true,
+        markers: false
+      };
+
+
+      gsap.from("#regalos h1", {
+        scrollTrigger: {
+          trigger: "#regalos h1",
+          start: "top 85%",
+          end: "bottom 60%",
+          toggleActions: "play none none none",
+          ...scrollConfig
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+
+      gsap.from("#regalos .intro-text p", {
+        scrollTrigger: {
+          trigger: "#regalos .intro-text",
+          start: "top 80%",
+          end: "bottom 60%", 
+          toggleActions: "play none none none",
+          ...scrollConfig
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.9,
+        stagger: 0.2,
+        ease: "power2.out",
+        delay: 0.2,
+      });
+
+
+      const cards = document.querySelectorAll("#regalos .gift-card");
+      cards.forEach((card, i) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            end: "bottom 60%",
+            toggleActions: "play none none none",
+            ...scrollConfig
+          },
+          opacity: 0,
+          y: 50,
+          x: i % 2 === 0 ? -30 : 30,
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.1 * i,
+        });
+      });
+
+
+      gsap.from("#regalos .closing-text", {
+        scrollTrigger: {
+          trigger: "#regalos .closing-text",
+          start: "top 90%",
+          end: "bottom 60%",
+          toggleActions: "play none none none",
+          ...scrollConfig
+        },
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: "power2.out",
+        delay: 0.3,
+      });
+    } catch (error) {
+      console.error("Error cargando GSAP:", error);
+
+      document.querySelectorAll("#regalos *").forEach(el => {
+        el.classList.add("mobile-fade-up", "animate-in");
+      });
+    }
+  });
+</script>
+
+<style>
+
+  .mobile-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  .mobile-fade-up.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+
+  #regalos .gift-card:nth-child(1).animate-in {
+    transition-delay: 0.1s;
+  }
+  
+  #regalos .gift-card:nth-child(2).animate-in {
+    transition-delay: 0.2s;
+  }
+  
+
+  #regalos .closing-text.animate-in {
+    transition-delay: 0.3s;
+  }
+</style>

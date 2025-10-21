@@ -1,0 +1,154 @@
+<header class="relative h-screen flex items-center justify-center bg-center bg-cover bg-no-repeat overflow-hidden">
+  <!-- Imagen de fondo -->
+  <div 
+  class="absolute inset-0 bg-cover bg-center md:bg-[center_top_-180px] bg-no-repeat"
+  style="background-image: url('novios.jpg')"
+></div>
+  
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <!-- Decoradores de línea alrededor -->
+  <div class="absolute top-10 left-10 w-20 h-px bg-white/50 line-top-left opacity-0"></div>
+  <div class="absolute top-10 left-10 w-px h-20 bg-white/50 line-top-left-vertical opacity-0"></div>
+  
+  <div class="absolute top-10 right-10 w-20 h-px bg-white/50 line-top-right opacity-0"></div>
+  <div class="absolute top-10 right-10 w-px h-20 bg-white/50 line-top-right-vertical opacity-0"></div>
+  
+  <div class="absolute bottom-10 left-10 w-20 h-px bg-white/50 line-bottom-left opacity-0"></div>
+  <div class="absolute bottom-10 left-10 w-px h-20 bg-white/50 line-bottom-left-vertical opacity-0"></div>
+  
+  <div class="absolute bottom-10 right-10 w-20 h-px bg-white/50 line-bottom-right opacity-0"></div>
+  <div class="absolute bottom-10 right-10 w-px h-20 bg-white/50 line-bottom-right-vertical opacity-0"></div>
+
+  <!-- Contenido principal -->
+  <div class="relative z-10 text-center px-6 max-w-2xl mx-auto">
+    <!-- Fecha -->
+    <p class="text-sm tracking-[0.4em] uppercase text-white mb-12 opacity-0 date-text font-light">
+      15 · 11 · 2025
+    </p>
+    
+    <!-- Nombres -->
+    <h1 class="text-6xl md:text-8xl font-thin tracking-tight mb-8 opacity-0 couple-names text-white">
+      <span class="name-1 block md:inline-block opacity-0">Samuel</span>
+      <span class="ampersand text-5xl md:text-6xl font-light mx-3 md:mx-6 opacity-0">&</span>
+      <span class="name-2 block md:inline-block mt-4 md:mt-0 opacity-0">Daniela</span>
+    </h1>
+    
+    <!-- Línea divisoria -->
+    <div class="w-0 h-px bg-white/50 mx-auto my-8 opacity-0 divider"></div>
+    
+    <!-- Texto de invitación -->
+    <p class="text-xl text-white font-light tracking-wide mb-8 opacity-0 invitation-text leading-relaxed">
+      Unidos en amor · Compartiendo nuestra felicidad
+    </p>
+    
+    <!-- Botón único -->
+    <div class="flex justify-center items-center opacity-0 buttons-container">
+      <button class="rsvp-btn cursor-pointer px-12 py-4 bg-white/20 backdrop-blur-sm text-white font-light tracking-widest text-sm uppercase hover:bg-white/30 transition-all duration-500 border border-white/30">
+        Confirmar Asistencia
+      </button>
+    </div>
+  </div>
+
+  <!-- Animación de scroll -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 scroll-indicator">
+    <div class="flex flex-col items-center">
+      <span class="text-white text-sm mb-2 tracking-widest">Deslizar</span>
+      <div class="w-px h-10 bg-white/60 relative">
+        <div class="absolute top-0 left-0 w-full h-4 bg-white scroll-arrow"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<script>
+  import gsap from "gsap";
+  document.addEventListener('DOMContentLoaded', function() {
+    const tl = gsap.timeline();
+
+
+    tl.to(['.line-top-left', '.line-top-right', '.line-bottom-left', '.line-bottom-right'], {
+      opacity: 1,
+      width: 80,
+      duration: 1.2,
+      ease: "power2.out"
+    })
+    .to(['.line-top-left-vertical', '.line-top-right-vertical', '.line-bottom-left-vertical', '.line-bottom-right-vertical'], {
+      opacity: 1,
+      height: 60,
+      duration: 1.2,
+      ease: "power2.out"
+    }, "-=1.0")
+
+
+    .to('.date-text', { 
+      opacity: 1, 
+      y: 0, 
+      duration: 1, 
+      ease: "power2.out" 
+    }, "-=0.8")
+    .to('.couple-names', { 
+      opacity: 1, 
+      duration: 0.5, 
+      ease: "power2.out" 
+    }, "-=0.5")
+    .to('.name-1', { 
+      opacity: 1, 
+      x: 0, 
+      duration: 1, 
+      ease: "power3.out" 
+    }, "-=0.5")
+    .to('.name-2', { 
+      opacity: 1, 
+      x: 0, 
+      duration: 1, 
+      ease: "power3.out" 
+    }, "-=0.8")
+    .to('.ampersand', { 
+      opacity: 1, 
+      scale: 1, 
+      rotation: 0, 
+      duration: 0.8, 
+      ease: "back.out(1.7)" 
+    }, "-=0.8")
+    .to('.divider', { 
+      width: 200, 
+      opacity: 1, 
+      duration: 1.2, 
+      ease: "power2.out" 
+    }, "-=0.5")
+    .to('.invitation-text', { 
+      opacity: 1, 
+      y: 0, 
+      duration: 1, 
+      ease: "power2.out" 
+    }, "-=0.5")
+    .to('.buttons-container', { 
+      opacity: 1, 
+      duration: 0.8, 
+      ease: "power2.out" 
+    }, "-=0.3")
+    .to('.rsvp-btn', { 
+      opacity: 1, 
+      y: 0, 
+      duration: 0.6, 
+      ease: "power2.out" 
+    }, "-=0.5")
+
+
+    .to('.scroll-indicator', {
+      opacity: 1,
+      duration: 0.8,
+      ease: "power2.out"
+    }, "-=0.3")
+    .to('.scroll-arrow', {
+      y: 32,
+      duration: 1.5,
+      repeat: -1,
+      ease: "power2.inOut",
+      yoyo: true
+    }, "-=0.5");
+  });
+</script>

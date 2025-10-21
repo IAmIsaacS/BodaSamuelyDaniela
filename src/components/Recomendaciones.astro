@@ -1,0 +1,209 @@
+<section id="recomendaciones" class="w-[90%] md:w-[70%] mx-auto py-20 md:py-28 text-center overflow-hidden">
+  <!-- Título -->
+  <h1 class="text-4xl md:text-6xl text-gray-800 mb-10 font-light tracking-tight">
+    Recomendaciones
+  </h1>
+
+  <!-- Párrafo intro -->
+  <p class="text-gray-600 max-w-2xl mx-auto mb-12">
+    Queremos que disfrutes este día tanto como nosotros.  
+    Aquí te compartimos algunas sugerencias para que la experiencia sea inolvidable.
+  </p>
+
+  <!-- Lista de recomendaciones -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 place-items-center text-center">
+    
+    <!-- Item 1 -->
+    <div class="item max-w-xs">
+      <div class="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-[#C8AD7F] text-white font-semibold text-lg mb-4 shadow-md">
+        1
+      </div>
+      <p class="text-gray-700 leading-relaxed">
+        <span class="font-semibold text-[#C8AD7F]">¿Tienes dudas?</span><br>
+        Contáctanos, estamos aquí para ayudarte con cualquier detalle.
+      </p>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="item max-w-xs">
+      <div class="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-[#C8AD7F] text-white font-semibold text-lg mb-4 shadow-md">
+        2
+      </div>
+      <p class="text-gray-700 leading-relaxed">
+        <span class="font-semibold text-[#C8AD7F]">Llega a tiempo</span><br>
+        Queremos que disfrutes de cada momento especial con nosotros.
+      </p>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="item max-w-xs">
+      <div class="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-[#C8AD7F] text-white font-semibold text-lg mb-4 shadow-md">
+        3
+      </div>
+      <p class="text-gray-700 leading-relaxed">
+        <span class="font-semibold text-[#C8AD7F]">Ríe y disfruta</span><br>
+        Este día está hecho para celebrar y crear recuerdos inolvidables.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<script>
+
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  document.addEventListener("DOMContentLoaded", async () => {
+
+    if (isMobile) {
+
+      document.querySelector("#recomendaciones h1").classList.add("mobile-fade-up");
+      document.querySelector("#recomendaciones p:first-of-type").classList.add("mobile-fade-up");
+      document.querySelectorAll("#recomendaciones .item").forEach(item => {
+        item.classList.add("mobile-fade-up");
+      });
+      document.querySelectorAll("#recomendaciones .item div").forEach(circle => {
+        circle.classList.add("mobile-scale-in");
+      });
+      
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+          }
+        });
+      }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+      
+
+      document.querySelectorAll('.mobile-fade-up, .mobile-scale-in').forEach(el => {
+        observer.observe(el);
+      });
+      
+      return; 
+    }
+    
+
+    try {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+      const section = "#recomendaciones";
+
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+
+
+      tl.from(`${section} h1`, {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+
+      tl.from(`${section} p:first-of-type`, {
+        opacity: 0,
+        y: 30,
+        duration: 0.9,
+        ease: "power2.out",
+      }, "-=0.5");
+
+
+      tl.from(`${section} .item`, {
+        opacity: 0,
+        y: 50,
+        duration: 1.2,
+        stagger: 0.2,
+        ease: "power3.out",
+      }, "-=0.4");
+
+
+      tl.from(`${section} .item div`, {
+        scale: 0.6,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "back.out(1.7)",
+      }, "-=1");
+    } catch (error) {
+      console.error("Error cargando GSAP:", error);
+
+      document.querySelectorAll("#recomendaciones *").forEach(el => {
+        if (el.classList.contains('item')) {
+          el.classList.add("mobile-fade-up", "animate-in");
+        } else if (el.tagName === 'DIV' && el.parentElement.classList.contains('item')) {
+          el.classList.add("mobile-scale-in", "animate-in");
+        } else {
+          el.classList.add("mobile-fade-up", "animate-in");
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .mobile-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  .mobile-fade-up.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .mobile-scale-in {
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  .mobile-scale-in.animate-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  #recomendaciones h1.animate-in {
+    transition-delay: 0.1s;
+  }
+  
+  #recomendaciones p:first-of-type.animate-in {
+    transition-delay: 0.3s;
+  }
+  
+  #recomendaciones .item:nth-child(1).animate-in {
+    transition-delay: 0.5s;
+  }
+  
+  #recomendaciones .item:nth-child(2).animate-in {
+    transition-delay: 0.7s;
+  }
+  
+  #recomendaciones .item:nth-child(3).animate-in {
+    transition-delay: 0.9s;
+  }
+  
+  #recomendaciones .item:nth-child(1) div.animate-in {
+    transition-delay: 0.6s;
+  }
+  
+  #recomendaciones .item:nth-child(2) div.animate-in {
+    transition-delay: 0.8s;
+  }
+  
+  #recomendaciones .item:nth-child(3) div.animate-in {
+    transition-delay: 1s;
+  }
+</style>

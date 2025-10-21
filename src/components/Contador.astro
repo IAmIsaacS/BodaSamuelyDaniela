@@ -1,0 +1,262 @@
+---
+import { Image } from "astro:assets"
+import ring from '../assets/ring.png';
+---
+
+<section class="flex flex-col items-center justify-center p-6 mt-10 mb-10 bg-white">
+  <!-- Imagen decorativa -->
+  <div class="mb-6">
+    <!-- Aquí insertas tu imagen -->
+    <Image src={ring} alt="Decoración floral" class="mx-auto w-16 md:w-24" />
+  </div>
+
+  <!-- Texto Save The Date -->
+  <div class="text-center mb-4">
+    <h1 class="text-4xl md:text-6xl font-serif italic text-gray-800">
+      Guarda la Fecha
+    </h1>
+  </div>
+  
+  <!-- Versículo -->
+  <div class="text-center max-w-2xl mb-10">
+    <p class="text-base md:text-lg text-gray-600 leading-relaxed">
+      "Las muchas aguas no podrán apagar el amor, ni lo ahogarán los ríos..." <br>
+      <span class="block mt-2 text-sm text-gray-500">— Cantares 8:7</span>
+    </p>
+  </div>
+
+  <!-- Fecha -->
+  <div class="text-center mb-10">
+    <p class="text-lg md:text-2xl font-light text-gray-700 tracking-wide">
+      - 15 Nov 2025 -
+    </p>
+  </div>
+
+  <!-- Contador -->
+  <div id="countdown" 
+       class="grid grid-cols-2 gap-6 md:flex md:items-center md:justify-center md:gap-12 text-center">
+    <div class="p-4 md:p-6 w-28 md:w-32 countdown-item">
+      <div class="countdown-number-container flex justify-center items-center space-x-1">
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="days-tens" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="days-ones" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+      </div>
+      <p class="text-sm md:text-base font-light mt-2 tracking-widest text-gray-500">Dias</p>
+    </div>
+    <div class="p-4 md:p-6 w-28 md:w-32 countdown-item">
+      <div class="countdown-number-container flex justify-center items-center space-x-1">
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="hours-tens" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="hours-ones" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+      </div>
+      <p class="text-sm md:text-base font-light mt-2 tracking-widest text-gray-500">Horas</p>
+    </div>
+    <div class="p-4 md:p-6 w-28 md:w-32 countdown-item">
+      <div class="countdown-number-container flex justify-center items-center space-x-1">
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="minutes-tens" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="minutes-ones" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+      </div>
+      <p class="text-sm md:text-base font-light mt-2 tracking-widest text-gray-500">Mins</p>
+    </div>
+    <div class="p-4 md:p-6 w-28 md:w-32 countdown-item">
+      <div class="countdown-number-container flex justify-center items-center space-x-1">
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="seconds-tens" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+        <div class="digit-container relative w-6 md:w-10 h-12 md:h-16">
+          <span id="seconds-ones" class="text-3xl md:text-5xl font-light text-gray-700 absolute top-0 left-0">0</span>
+        </div>
+      </div>
+      <p class="text-sm md:text-base font-light mt-2 tracking-widest text-gray-500">Secs</p>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  import gsap from "gsap";
+
+
+  const countDownDate = new Date("Nov 15, 2025 00:00:00").getTime();
+
+
+  const DIGIT_IDS = [
+    "days-tens","days-ones",
+    "hours-tens","hours-ones",
+    "minutes-tens","minutes-ones",
+    "seconds-tens","seconds-ones"
+  ];
+
+
+  const digitNodes = {};
+
+
+  function initDigitLayers() {
+    DIGIT_IDS.forEach(id => {
+      const original = document.getElementById(id);
+      if (!original) return;
+
+
+      const parent = original.parentNode;
+      const container = document.createElement("div");
+      container.style.position = "relative";
+      container.style.width = "100%";
+      container.style.height = original.offsetHeight + "px" || "1em";
+      container.className = "digit-layer-container";
+
+
+      const layerA = document.createElement("span");
+      const layerB = document.createElement("span");
+
+
+      layerA.className = original.className;
+      layerB.className = original.className;
+
+
+      [layerA, layerB].forEach(layer => {
+        layer.style.position = "absolute";
+        layer.style.left = "0";
+        layer.style.top = "0";
+        layer.style.width = "100%";
+        layer.style.height = "100%";
+        layer.style.display = "block";
+        layer.style.textAlign = "center";
+        layer.style.pointerEvents = "none";
+
+        layer.style.willChange = "transform, opacity, filter";
+      });
+
+
+      layerA.textContent = original.textContent || "0";
+      layerB.textContent = "";
+      gsap.set(layerA, { yPercent: 0, opacity: 1, filter: "blur(0px)", scale: 1 });
+      gsap.set(layerB, { yPercent: 100, opacity: 0, filter: "blur(0px)", scale: 1 });
+
+
+      container.appendChild(layerA);
+      container.appendChild(layerB);
+      parent.replaceChild(container, original);
+
+
+      digitNodes[id] = {
+        container,
+        layerA,
+        layerB,
+        visibleIsA: true
+      };
+    });
+  }
+
+
+  function animateDigitReuse(id, newDigit) {
+    const node = digitNodes[id];
+    if (!node) return;
+    const { layerA, layerB, visibleIsA } = node;
+
+
+    const visible = visibleIsA ? layerA : layerB;
+    const hidden = visibleIsA ? layerB : layerA;
+
+
+    if (visible.textContent === newDigit) return;
+
+
+    hidden.textContent = newDigit;
+    gsap.set(hidden, { yPercent: 100, opacity: 0, filter: "blur(2px)", scale: 0.98 });
+
+
+    const tl = gsap.timeline();
+    tl.to(visible, {
+      yPercent: -100,
+      opacity: 0,
+      filter: "blur(3px)",
+      scale: 0.92,
+      duration: 0.34,
+      ease: "power2.in"
+    }, 0);
+    tl.to(hidden, {
+      yPercent: 0,
+      opacity: 1,
+      filter: "blur(0px)",
+      scale: 1,
+      duration: 0.44,
+      ease: "back.out(1.2)"
+    }, 0.05);
+
+
+    tl.call(() => {
+
+      node.visibleIsA = !node.visibleIsA;
+
+
+      const nowHidden = node.visibleIsA ? node.layerB : node.layerA;
+      gsap.set(nowHidden, { yPercent: 100, opacity: 0, filter: "blur(0px)", scale: 1 });
+    });
+  }
+
+
+  let previousValues = { days: '00', hours: '00', minutes: '00', seconds: '00' };
+
+  function updateCountdownOnce() {
+    const now = Date.now();
+    const distance = countDownDate - now;
+
+    if (distance < 0) {
+      clearInterval(countdownInterval);
+      const countdownEl = document.getElementById("countdown");
+      if (countdownEl) {
+        countdownEl.innerHTML =
+          '<div class="text-2xl md:text-4xl font-serif text-gray-800">¡Llegó la fecha!</div>';
+      }
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    const daysStr = String(days).padStart(2, "0");
+    const hoursStr = String(hours).padStart(2, "0");
+    const minutesStr = String(minutes).padStart(2, "0");
+    const secondsStr = String(seconds).padStart(2, "0");
+
+    // Solo animar los grupos que cambian
+    if (daysStr !== previousValues.days) {
+      animateDigitReuse("days-tens", daysStr[0]);
+      animateDigitReuse("days-ones", daysStr[1]);
+      previousValues.days = daysStr;
+    }
+    if (hoursStr !== previousValues.hours) {
+      animateDigitReuse("hours-tens", hoursStr[0]);
+      animateDigitReuse("hours-ones", hoursStr[1]);
+      previousValues.hours = hoursStr;
+    }
+    if (minutesStr !== previousValues.minutes) {
+      animateDigitReuse("minutes-tens", minutesStr[0]);
+      animateDigitReuse("minutes-ones", minutesStr[1]);
+      previousValues.minutes = minutesStr;
+    }
+    if (secondsStr !== previousValues.seconds) {
+      animateDigitReuse("seconds-tens", secondsStr[0]);
+      animateDigitReuse("seconds-ones", secondsStr[1]);
+      previousValues.seconds = secondsStr;
+    }
+  }
+
+
+  initDigitLayers();
+
+  updateCountdownOnce();
+  const countdownInterval = setInterval(updateCountdownOnce, 1000);
+</script>
