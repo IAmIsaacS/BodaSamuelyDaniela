@@ -2,25 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Samuel & Daniela - Nuestra Boda</title>
+    <meta
+      name="description"
+      content="Acompáñanos a celebrar la boda de Samuel y Daniela. Descubre todos los detalles del evento, confirma tu asistencia y sé parte de este día tan especial."
+    />
+    <meta name="author" content="Samuel y Daniela" />
+
+    <!-- SEO y redes sociales -->
+    <meta property="og:title" content="Samuel & Daniela - Nuestra Boda" />
+    <meta
+      property="og:description"
+      content="¡Estás invitado a la boda de Samuel y Daniela! Toda la información sobre la ceremonia y la fiesta está aquí."
+    />
+    <meta property="og:image" content="/meta.jpg" />
+    <!-- Cambia por la imagen real -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_VE" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Samuel & Daniela - Nuestra Boda" />
+    <meta
+      name="twitter:description"
+      content="Acompáñanos a celebrar el día más especial de Samuel y Daniela."
+    />
+    <meta name="twitter:image" content="/meta.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Great+Vibes&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
-      rel="stylesheet"
-    />
+
+    <!-- Astro generador, si se requiere en el build -->
+    <meta name="generator" content="Astro" />
   </head>
   <body>
-      <slot />
+    <slot />
   </body>
 </html>
 
