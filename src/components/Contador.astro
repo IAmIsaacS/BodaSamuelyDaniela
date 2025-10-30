@@ -11,7 +11,7 @@ import ring from '../assets/ring.png';
   </div>
 
   <!-- Texto Save The Date -->
-  <div class="text-center mb-4">
+  <div class="text-center mb-4" id="countdown" >
     <h1 class="text-4xl md:text-6xl font-serif italic text-gray-800">
       Guarda la Fecha
     </h1>
@@ -33,7 +33,7 @@ import ring from '../assets/ring.png';
   </div>
 
   <!-- Contador -->
-  <div id="countdown" 
+  <div
        class="grid grid-cols-2 gap-6 md:flex md:items-center md:justify-center md:gap-12 text-center">
     <div class="p-4 md:p-6 w-28 md:w-32 countdown-item">
       <div class="countdown-number-container flex justify-center items-center space-x-1">
@@ -86,42 +86,41 @@ import ring from '../assets/ring.png';
 <script>
   import gsap from "gsap";
 
-
-  const countDownDate = new Date("Nov 15, 2025 00:00:00").getTime();
-
+  const countDownDate = new Date("Nov 15, 2025 15:00:00").getTime();
 
   const DIGIT_IDS = [
-    "days-tens","days-ones",
-    "hours-tens","hours-ones",
-    "minutes-tens","minutes-ones",
-    "seconds-tens","seconds-ones"
+    "days-tens", "days-ones",
+    "hours-tens", "hours-ones",
+    "minutes-tens", "minutes-ones",
+    "seconds-tens", "seconds-ones"
   ];
 
+  type DigitNode = {
+    container: HTMLDivElement;
+    layerA: HTMLSpanElement;
+    layerB: HTMLSpanElement;
+    visibleIsA: boolean;
+  };
 
-  const digitNodes = {};
-
+  const digitNodes: Record<string, DigitNode> = {};
 
   function initDigitLayers() {
     DIGIT_IDS.forEach(id => {
       const original = document.getElementById(id);
       if (!original) return;
 
-
-      const parent = original.parentNode;
+      const parent = original.parentNode as HTMLElement;
       const container = document.createElement("div");
       container.style.position = "relative";
       container.style.width = "100%";
-      container.style.height = original.offsetHeight + "px" || "1em";
+      container.style.height = original.offsetHeight ? `${original.offsetHeight}px` : "1em";
       container.className = "digit-layer-container";
-
 
       const layerA = document.createElement("span");
       const layerB = document.createElement("span");
 
-
       layerA.className = original.className;
       layerB.className = original.className;
-
 
       [layerA, layerB].forEach(layer => {
         layer.style.position = "absolute";
@@ -132,21 +131,17 @@ import ring from '../assets/ring.png';
         layer.style.display = "block";
         layer.style.textAlign = "center";
         layer.style.pointerEvents = "none";
-
         layer.style.willChange = "transform, opacity, filter";
       });
-
 
       layerA.textContent = original.textContent || "0";
       layerB.textContent = "";
       gsap.set(layerA, { yPercent: 0, opacity: 1, filter: "blur(0px)", scale: 1 });
       gsap.set(layerB, { yPercent: 100, opacity: 0, filter: "blur(0px)", scale: 1 });
 
-
       container.appendChild(layerA);
       container.appendChild(layerB);
       parent.replaceChild(container, original);
-
 
       digitNodes[id] = {
         container,
@@ -157,23 +152,18 @@ import ring from '../assets/ring.png';
     });
   }
 
-
-  function animateDigitReuse(id, newDigit) {
+  function animateDigitReuse(id: string, newDigit: string) {
     const node = digitNodes[id];
     if (!node) return;
     const { layerA, layerB, visibleIsA } = node;
 
-
     const visible = visibleIsA ? layerA : layerB;
     const hidden = visibleIsA ? layerB : layerA;
 
-
     if (visible.textContent === newDigit) return;
-
 
     hidden.textContent = newDigit;
     gsap.set(hidden, { yPercent: 100, opacity: 0, filter: "blur(2px)", scale: 0.98 });
-
 
     const tl = gsap.timeline();
     tl.to(visible, {
@@ -193,19 +183,15 @@ import ring from '../assets/ring.png';
       ease: "back.out(1.2)"
     }, 0.05);
 
-
     tl.call(() => {
-
       node.visibleIsA = !node.visibleIsA;
-
-
       const nowHidden = node.visibleIsA ? node.layerB : node.layerA;
       gsap.set(nowHidden, { yPercent: 100, opacity: 0, filter: "blur(0px)", scale: 1 });
     });
   }
 
-
-  let previousValues = { days: '00', hours: '00', minutes: '00', seconds: '00' };
+  let previousValues = { days: "00", hours: "00", minutes: "00", seconds: "00" };
+  let countdownInterval: number;
 
   function updateCountdownOnce() {
     const now = Date.now();
@@ -215,8 +201,15 @@ import ring from '../assets/ring.png';
       clearInterval(countdownInterval);
       const countdownEl = document.getElementById("countdown");
       if (countdownEl) {
-        countdownEl.innerHTML =
-          '<div class="text-2xl md:text-4xl font-serif text-gray-800">¡Llegó la fecha!</div>';
+        countdownEl.innerHTML = `
+          <h1 class="text-4xl md:text-6xl font-serif italic text-gray-800">
+      La fecha ha llegado
+    </h1>
+<p class="text-base md:text-lg leading-relaxed mt-5">
+  Gracias por formar parte de este momento especial
+</p>
+
+        `;
       }
       return;
     }
@@ -231,7 +224,6 @@ import ring from '../assets/ring.png';
     const minutesStr = String(minutes).padStart(2, "0");
     const secondsStr = String(seconds).padStart(2, "0");
 
-    // Solo animar los grupos que cambian
     if (daysStr !== previousValues.days) {
       animateDigitReuse("days-tens", daysStr[0]);
       animateDigitReuse("days-ones", daysStr[1]);
@@ -254,9 +246,8 @@ import ring from '../assets/ring.png';
     }
   }
 
-
   initDigitLayers();
 
   updateCountdownOnce();
-  const countdownInterval = setInterval(updateCountdownOnce, 1000);
+  countdownInterval = setInterval(updateCountdownOnce, 1000);
 </script>

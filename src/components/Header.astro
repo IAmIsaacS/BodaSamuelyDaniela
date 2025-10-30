@@ -157,3 +157,18 @@
     }, "-=0.5");
   });
 </script>
+
+<script>
+  var eventDate = new Date("Nov 15, 2025 15:00:00").getTime();
+
+  function hideButtonWhenDateReached() {
+    var now = Date.now();
+    if (now >= eventDate) {
+      var btnContainer = document.querySelector('.buttons-container');
+      if (btnContainer) btnContainer.style.display = "none";
+    } else {
+      setTimeout(hideButtonWhenDateReached, 60000);
+    }
+  }
+  hideButtonWhenDateReached();
+</script>
